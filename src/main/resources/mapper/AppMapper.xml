@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.AppMapper">
+  <resultMap id="BaseResultMap" type="mybatis.entity.App">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_name" jdbcType="CHAR" property="appName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="country" jdbcType="CHAR" property="country" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, app_name, url, country
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from apps
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from apps
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.App">
+    insert into apps (id, app_name, url, 
+      country)
+    values (#{id,jdbcType=INTEGER}, #{appName,jdbcType=CHAR}, #{url,jdbcType=VARCHAR}, 
+      #{country,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.App">
+    insert into apps
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appName != null">
+        app_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null">
+        #{appName,jdbcType=CHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.App">
+    update apps
+    <set>
+      <if test="appName != null">
+        app_name = #{appName,jdbcType=CHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.App">
+    update apps
+    set app_name = #{appName,jdbcType=CHAR},
+      url = #{url,jdbcType=VARCHAR},
+      country = #{country,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
